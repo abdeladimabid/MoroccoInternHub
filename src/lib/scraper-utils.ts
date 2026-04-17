@@ -129,17 +129,32 @@ export function cleanDescription(text: string): string {
     .trim();
 }
 
-/** Cleans up generic company names */
+/** Cleans up generic company names and removes duplicates */
 export function cleanCompany(name: string): string {
   if (!name) return "Société";
+  
+  let cleaner = name.trim();
+  
+  // Dedup if the name is repeated like "Company Company"
+  const words = cleaner.split(/\s+/);
+  if (words.length >= 2 && words.length % 2 === 0) {
+    const half = words.length / 2;
+    const firstHalf = words.slice(0, half).join(" ");
+    const secondHalf = words.slice(half).join(" ");
+    if (firstHalf.toLowerCase() === secondHalf.toLowerCase()) {
+      cleaner = firstHalf;
+    }
+  }
+
   const generic = [
     "Entreprise de renommée", "Multinationale", "Société Confidentielle", "Unknown Company",
     "Anonyme", "Confidenciel", "Recruteur", "Direct Link", "Import-Export", "PME", "SARL"
   ];
-  const cleaner = name.trim();
+  
   if (generic.some(g => cleaner.toLowerCase().includes(g.toLowerCase()))) {
      return "Entreprise (IT)";
   }
+  
   return cleaner;
 }
 

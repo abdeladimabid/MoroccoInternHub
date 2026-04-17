@@ -48,55 +48,49 @@ export default function InternshipList({ initialOffers, filters }: { initialOffe
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 [grid-auto-rows:1fr]">
         {offers.map((offer) => {
           const isNew = offer.ageInDays <= 3;
-          const initial = offer.company.charAt(0).toUpperCase();
 
           return (
-            <div key={offer.id} className="group relative flex flex-col bg-[#161822]/40 backdrop-blur-md border border-white/5 rounded-[2rem] overflow-hidden transition-all duration-500 hover:border-indigo-500/30 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6),0_0_20px_rgba(79,70,229,0.05)] hover:-translate-y-1.5">
-              {/* Decorative gradient spot */}
-              <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-500/5 blur-[70px] rounded-full pointer-events-none group-hover:bg-indigo-500/10 transition-all duration-700"></div>
+            <div key={offer.id} className="group relative flex flex-col bg-[#161822]/40 backdrop-blur-md border border-white/5 rounded-[2.25rem] overflow-hidden transition-all duration-500 hover:border-indigo-500/20 hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.6)] hover:-translate-y-1">
+              {/* Background Glow */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/5 blur-[50px] rounded-full pointer-events-none group-hover:bg-indigo-600/10 transition-all duration-700"></div>
               
-              <div className="p-7 flex-1 flex flex-col relative z-20">
-                {/* Header: Company Icon and Source */}
-                <div className="flex justify-between items-start mb-4">
-                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#1e293b] to-[#0f172a] border border-white/10 flex items-center justify-center font-bold text-indigo-400 text-lg shadow-xl group-hover:scale-105 transition-transform duration-500">
-                    {initial}
+              <div className="p-6 pb-4 flex-1 flex flex-col relative z-20">
+                {/* Top Bar: Location and Badges */}
+                <div className="flex justify-between items-center mb-5">
+                  <div className="flex items-center gap-1.5 text-slate-500 text-[10px] font-bold uppercase tracking-wider">
+                    <MapPin className="h-3 w-3 text-indigo-500/60" />
+                    <span className="truncate max-w-[100px]">{offer.location}</span>
                   </div>
                   
-                  <div className="flex flex-col items-end gap-1.5">
+                  <div className="flex gap-1.5 items-center">
                     {isNew && (
-                      <span className="text-[8px] font-black uppercase tracking-[0.2em] text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full animate-pulse">
+                      <span className="text-[9px] font-black uppercase text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
                         Nouveau
                       </span>
                     )}
-                    <div className="text-[9px] font-bold px-2.5 py-0.5 bg-white/5 text-slate-400 border border-white/5 rounded-full backdrop-blur-sm">
+                    <span className="text-[9px] font-bold text-slate-400 bg-white/5 px-2 py-0.5 rounded-full border border-white/5 backdrop-blur-sm">
                       {offer.source}
-                    </div>
+                    </span>
                   </div>
                 </div>
 
-                {/* Content: Company and Title */}
+                {/* Company & Title */}
                 <div className="mb-4">
-                  <div className="text-indigo-400 text-[10px] font-black uppercase tracking-[0.15em] mb-1.5 opacity-90">
+                  <div className="text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em] mb-1.5 opacity-90 truncate">
                     {offer.company}
                   </div>
-                  <h3 className="font-bold text-white text-base leading-[1.3] font-heading group-hover:text-indigo-300 transition-colors line-clamp-2" title={offer.title}>
+                  <h3 className="font-bold text-white text-lg leading-snug font-heading group-hover:text-indigo-300 transition-colors line-clamp-2" title={offer.title}>
                     {offer.title}
                   </h3>
                 </div>
 
-                {/* Badges row */}
-                <div className="flex flex-wrap gap-2 mb-5">
-                   <div className="text-[9px] font-bold px-2.5 py-1 bg-white/5 text-slate-400 border border-white/5 rounded-lg backdrop-blur-sm">
-                     {offer.source}
-                   </div>
+                {/* Tags Row */}
+                <div className="flex flex-wrap gap-1.5 mb-4">
                    <div className="text-[9px] font-bold px-2.5 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-lg">
                      {offer.contract}
                    </div>
-                   <div className="text-[9px] font-bold px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg">
-                     {offer.language}
-                   </div>
                    {offer.tags?.slice(0, 3).map((tag, idx) => (
-                     <div key={idx} className="text-[9px] font-bold px-2.5 py-1 bg-slate-800/50 text-slate-300 border border-white/5 rounded-lg">
+                     <div key={idx} className="text-[9px] font-bold px-2.5 py-1 bg-white/5 text-slate-300 border border-white/5 rounded-lg backdrop-blur-sm">
                         {tag}
                      </div>
                    ))}
@@ -104,37 +98,33 @@ export default function InternshipList({ initialOffers, filters }: { initialOffe
 
                 {/* Description Snippet */}
                 {offer.description && (
-                  <div className="mb-5">
-                    <div className="bg-[#0f111a]/50 p-3.5 rounded-xl border border-white/5 group-hover:bg-[#0f111a]/80 transition-colors">
-                      <p className="text-slate-400 text-xs leading-relaxed line-clamp-2">
-                        {offer.description}
-                      </p>
-                    </div>
-                  </div>
+                  <p className="text-slate-400 text-xs leading-relaxed line-clamp-2 opacity-70 group-hover:opacity-100 transition-opacity">
+                    {offer.description}
+                  </p>
                 )}
-
-                {/* Footer Metadata */}
-                <div className="mt-auto flex justify-between items-center text-[10px] text-slate-500 pt-5 border-t border-white/5">
-                  <span className="flex items-center gap-1.5">
-                    <MapPin className="h-3 w-3 text-indigo-500/60" /> 
-                    <span className="truncate max-w-[110px]">{offer.location}</span>
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <Clock className="h-3 w-3 text-indigo-500/60" /> {offer.dateStr}
-                  </span>
-                </div>
               </div>
 
-              {/* Action Area */}
-              <div className="px-7 pb-7 pt-0">
+              {/* Action Area & Date */}
+              <div className="px-6 pb-6 pt-4 flex flex-col gap-4 relative z-20">
+                <div className="flex items-center justify-between text-[10px] text-slate-500/60 font-medium px-1">
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="h-3 w-3" />
+                    {offer.dateStr}
+                  </div>
+                  <div className="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded text-[8px] font-black uppercase">Active</div>
+                </div>
+
                 <a 
                   href={offer.url} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-[13px] font-bold rounded-xl flex items-center justify-center transition-all active:scale-[0.98] shadow-lg shadow-indigo-600/30 group/btn font-heading"
+                  className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-2xl flex items-center justify-center transition-all active:scale-[0.97] shadow-lg shadow-indigo-600/30 group/btn font-heading relative overflow-hidden"
                 >
-                  Voir l'offre 
-                  <ExternalLink className="h-3.5 w-3.5 ml-1.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                  <span className="relative z-10 flex items-center gap-2">
+                    Voir l'offre 
+                    <ExternalLink className="h-3.5 w-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>
                 </a>
               </div>
             </div>
