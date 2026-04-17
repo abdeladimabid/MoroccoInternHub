@@ -4,6 +4,7 @@ import { FilterOptions } from "@/lib/scrapers/types";
 import InternshipList from "@/components/InternshipList";
 import FilterSection from "@/components/FilterSection";
 import { Github, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 async function InternshipStream({ searchParams }: { searchParams: Promise<{ [key: string]: string }> }) {
   const params = await searchParams;
@@ -113,10 +114,11 @@ export default function Dashboard({ searchParams }: { searchParams: Promise<{ [k
           <div className="text-slate-500 text-sm">
             © 2026 Morocco InternHub. Plateforme agrégative indépendante.
           </div>
-          <div className="flex gap-8 text-slate-500 text-xs font-bold uppercase tracking-widest">
-            <a href="#" className="hover:text-indigo-400 transition-colors">À propos</a>
-            <a href="#" className="hover:text-indigo-400 transition-colors">Confidentialité</a>
-            <a href="#" className="hover:text-indigo-400 transition-colors">Contact</a>
+          <div className="flex gap-8 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
+            <Link href="/about" className="hover:text-indigo-400 transition-colors">À propos</Link>
+            <Link href="/privacy" className="hover:text-indigo-400 transition-colors">Confidentialité</Link>
+            <Link href="/terms" className="hover:text-indigo-400 transition-colors">Conditions</Link>
+            <Link href="/contact" className="hover:text-indigo-400 transition-colors text-indigo-500/80">Contact</Link>
           </div>
         </div>
       </footer>
