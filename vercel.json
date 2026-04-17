@@ -1,0 +1,8 @@
+{
+  "maxDuration": 15,
+  "functions": {
+    "src/app/page.tsx": {
+      "maxDuration": 15
+    }
+  }
+}
