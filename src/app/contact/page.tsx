@@ -26,49 +26,64 @@ export default function ContactPage() {
         </div>
       </nav>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-8 pt-24 pb-32">
-        <header className="mb-16 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-[11px] font-bold text-indigo-400 uppercase tracking-widest mb-8">
-            <MessageSquare className="h-3 w-3" /> Une suggestion ou une question ?
+      <div className="relative z-10 max-w-5xl mx-auto px-8 pt-24 pb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-[11px] font-bold text-indigo-400 uppercase tracking-widest mb-8">
+              <MessageSquare className="h-3 w-3" /> Get in touch
+            </div>
+            <h1 className="text-6xl md:text-8xl font-bold text-white tracking-tighter leading-[0.9] mb-12 font-heading">
+              Une idée ? <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-indigo-500 to-purple-500">Parlons-en.</span>
+            </h1>
+            <p className="text-slate-400 text-lg md:text-xl font-medium leading-relaxed max-w-md">
+              Que ce soit pour un bug, un partenariat ou simplement pour dire bonjour, je suis toujours ouvert aux discussions.
+            </p>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tighter mb-8 font-heading">
-            Entrer en <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">Contact</span>
-          </h1>
-          <p className="text-slate-400 text-xl leading-relaxed max-w-2xl mx-auto">
-            Vous avez trouvé un bug ? Vous voulez ajouter une nouvelle source ? Nous sommes à votre écoute.
-          </p>
-        </header>
 
-        <section className="flex flex-col items-center gap-8">
-           <div className="w-full max-w-md bg-[#161822]/40 backdrop-blur-md border border-white/5 p-12 rounded-[3rem] text-center">
-             <div className="w-20 h-20 bg-indigo-600/20 border border-indigo-500/30 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-indigo-500/20">
-               <Mail className="w-8 h-8 text-indigo-400" />
+          <div className="relative">
+             {/* Decorative background for the CTA */}
+             <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-600/20 to-purple-600/20 blur-3xl opacity-30 rounded-[3rem]"></div>
+             
+             <div className="relative bg-[#161822]/60 backdrop-blur-2xl border border-white/5 p-12 rounded-[3.5rem] shadow-2xl">
+               <div className="mb-12">
+                 <h3 className="text-2xl font-bold text-white mb-4 font-heading">Coordonnées</h3>
+                 <p className="text-slate-500 text-sm">Cliquez sur le lien ci-dessous pour m'envoyer un message directement par email.</p>
+               </div>
+
+               <div className="space-y-6">
+                 <a 
+                   href="mailto:abdeladim.abid1@gmail.com" 
+                   className="flex flex-col gap-2 p-8 bg-[#0f111a]/50 border border-white/5 rounded-3xl hover:border-indigo-500/30 hover:bg-[#0f111a] transition-all group"
+                 >
+                   <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Email Principal</span>
+                   <span className="text-xl md:text-2xl font-bold text-white group-hover:text-indigo-400 transition-colors flex items-center justify-between">
+                     abdeladim.abid1@gmail.com
+                     <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                   </span>
+                 </a>
+
+                 <div className="grid grid-cols-2 gap-4">
+                    <div className="p-6 bg-white/5 border border-white/5 rounded-[2rem]">
+                       <h4 className="text-white font-bold text-xs mb-1">Support</h4>
+                       <p className="text-slate-500 text-[10px]">Bug tracking & fixes</p>
+                    </div>
+                    <div className="p-6 bg-white/5 border border-white/5 rounded-[2rem]">
+                       <h4 className="text-white font-bold text-xs mb-1">Business</h4>
+                       <p className="text-slate-500 text-[10px]">Partnerships & API</p>
+                    </div>
+                 </div>
+               </div>
+
+               <div className="mt-12 pt-8 border-t border-white/5 flex items-center justify-between">
+                 <div className="flex gap-4">
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Disponible pour discuter</span>
+                 </div>
+               </div>
              </div>
-             
-             <h2 className="text-2xl font-bold text-white mb-2 font-heading">Direct Email</h2>
-             <p className="text-slate-500 mb-8">Nous essayons de répondre en moins de 24h.</p>
-             
-             <a 
-               href="mailto:abdeladim.abid1@gmail.com" 
-               className="inline-flex items-center gap-3 px-8 py-5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl transition-all shadow-xl shadow-indigo-600/20 active:scale-95 group"
-             >
-               abdeladim.abid1@gmail.com
-               <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-             </a>
-           </div>
-
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <div className="p-8 bg-[#161822]/40 border border-white/5 rounded-[2rem]">
-                 <h3 className="text-white font-bold mb-2">Support Technique</h3>
-                 <p className="text-slate-500 text-sm">Pour tout problème d'affichage ou erreur de recherche.</p>
-              </div>
-              <div className="p-8 bg-[#161822]/40 border border-white/5 rounded-[2rem]">
-                 <h3 className="text-white font-bold mb-2">Partenariats</h3>
-                 <p className="text-slate-500 text-sm">Vous êtes une plateforme d'emploi et voulez être intégré ?</p>
-              </div>
-           </div>
-        </section>
+          </div>
+        </div>
       </div>
     </main>
   );
