@@ -72,7 +72,7 @@ export default function FilterSection() {
             <select
               value={region}
               onChange={(e) => { setRegion(e.target.value); updateFilters("region", e.target.value); }}
-              className="w-full pl-11 pr-4 py-4 bg-[#0f111a]/50 border border-white/5 rounded-2xl text-sm text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/10 cursor-pointer hover:bg-slate-800/30 transition-colors"
+              className="w-full pl-11 pr-4 py-4 bg-[#0f111a]/50 border border-white/5 rounded-2xl text-sm text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/10 cursor-pointer hover:bg-slate-800/30 transition-colors [&>option]:bg-[#161822] [&>option]:text-white"
             >
               <option value="">Toutes les régions</option>
               <option value="Casablanca">Casablanca</option>
@@ -88,7 +88,7 @@ export default function FilterSection() {
             <select
               value={contract}
               onChange={(e) => { setContract(e.target.value); updateFilters("contract", e.target.value); }}
-              className="w-full pl-11 pr-4 py-4 bg-[#0f111a]/50 border border-white/5 rounded-2xl text-sm text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/10 cursor-pointer hover:bg-slate-800/30 transition-colors"
+              className="w-full pl-11 pr-4 py-4 bg-[#0f111a]/50 border border-white/5 rounded-2xl text-sm text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/10 cursor-pointer hover:bg-slate-800/30 transition-colors [&>option]:bg-[#161822] [&>option]:text-white"
             >
               <option value="">Contrat</option>
               <option value="Stage">Stage</option>
@@ -107,7 +107,7 @@ export default function FilterSection() {
                 setSearchQuery(val);
                 updateFilters("q", val);
               }}
-              className="w-full pl-11 pr-4 py-4 bg-[#0f111a]/50 border border-white/5 rounded-2xl text-sm text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/10 cursor-pointer hover:bg-slate-800/30 transition-colors"
+              className="w-full pl-11 pr-4 py-4 bg-[#0f111a]/50 border border-white/5 rounded-2xl text-sm text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/10 cursor-pointer hover:bg-slate-800/30 transition-colors [&>option]:bg-[#161822] [&>option]:text-white"
             >
               <option value="">Stacks</option>
               <option value="React">React</option>
