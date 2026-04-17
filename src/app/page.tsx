@@ -1,25 +1,22 @@
 import { Suspense } from "react";
 import { fetchInternshipsAction } from "@/lib/actions";
-import { Skeleton } from "@/components/ui/skeleton";
 import { FilterOptions } from "@/lib/scrapers/types";
 import InternshipList from "@/components/InternshipList";
 import FilterSection from "@/components/FilterSection";
-import { MousePointer2, Github } from "lucide-react";
+import { Github, Sparkles } from "lucide-react";
 
 async function InternshipStream({ searchParams }: { searchParams: Promise<{ [key: string]: string }> }) {
   const params = await searchParams;
-  
   const page = parseInt(params.page || "1");
   const filters: FilterOptions = {
     q: params.q,
     region: params.region,
     contract: params.contract as FilterOptions['contract']
   };
-  
   const initialOffers = await fetchInternshipsAction(page, filters);
-  
+
   return (
-    <div className="max-w-7xl mx-auto px-4 pb-20 mt-12">
+    <div className="max-w-7xl mx-auto px-4 pb-32 mt-16">
       <InternshipList initialOffers={initialOffers} filters={filters} />
     </div>
   );
@@ -27,88 +24,102 @@ async function InternshipStream({ searchParams }: { searchParams: Promise<{ [key
 
 export default function Dashboard({ searchParams }: { searchParams: Promise<{ [key: string]: string }> }) {
   return (
-    <main className="min-h-screen bg-[#0f111a] font-sans text-slate-300 selection:bg-indigo-500/30">
-      {/* Header / Nav */}
-      <nav className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto relative z-30">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-600/20">
-             <div className="w-5 h-5 border-2 border-white rounded-sm"></div>
+    <main className="min-h-screen relative">
+      {/* Dynamic Background */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-[radial-gradient(circle_at_center,rgba(79,70,229,0.08)_0,transparent_70%)]"></div>
+        <div className="absolute bottom-0 left-0 w-full h-[500px] bg-[radial-gradient(circle_at_20%_80%,rgba(139,92,246,0.05)_0,transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] contrast-150"></div>
+      </div>
+
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 backdrop-blur-md border-b border-white/5 bg-[#0f111a]/60">
+        <div className="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-600/40">
+              <Sparkles className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold text-white tracking-tight font-heading">
+              Morocco <span className="text-indigo-500">InternHub</span>
+            </span>
           </div>
-          <span className="text-xl font-black text-white tracking-tight">
-            Morocco <span className="text-indigo-500">InternHub</span>
-          </span>
-        </div>
-        
-        <div className="flex gap-4">
-           <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-slate-400">
-             <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-             Progressive Scrape
-           </div>
-           <a href="#" className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-bold text-white transition-all">
-             <Github className="h-4 w-4" /> GitHub
-           </a>
+
+          <div className="flex gap-4 items-center">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+              Live Scanning
+            </div>
+            <a
+              href="https://github.com/abdeladimabid/MoroccoInternHub"
+              target="_blank"
+              className="p-2 text-slate-400 hover:text-white transition-colors"
+            >
+              <Github className="h-5 w-5" />
+            </a>
+          </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <header className="relative pt-20 pb-40 overflow-hidden">
-        {/* Background blobs */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-full pointer-events-none overflow-hidden">
-           <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-indigo-600/10 blur-[120px] rounded-full"></div>
-           <div className="absolute top-1/3 right-1/4 w-[300px] h-[300px] bg-purple-600/10 blur-[100px] rounded-full"></div>
-        </div>
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <header className="pt-24 pb-40 text-center px-4 overflow-hidden">
 
-        <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-[11px] font-black tracking-widest text-indigo-400 mb-8 lowercase">
-             <MousePointer2 className="h-3 w-3" /> Chargement progressif · Rapide et efficace
-          </div>
-          
-          <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-8">
-            Trouve ton <span className="text-indigo-500">stage IT</span> <br />
-            au <span className="text-emerald-400">Maroc</span>
+          <h1 className="text-6xl md:text-8xl font-bold text-white tracking-tighter leading-[0.9] mb-8 font-heading animate-fade-in" style={{ animationDelay: "200ms" }}>
+            Ton futur stage <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-indigo-500 to-purple-500">IT commence ici.</span>
           </h1>
-          
-          <p className="text-slate-400 text-lg md:text-xl font-medium max-w-2xl mx-auto mb-12">
-            Indeed, Rekrute, Emploi.ma, M-Job, et Stage.ma — <br />
-            <span className="text-white">Scrapés en temps réel</span> pour une recherche sans compromis.
+
+          <p className="text-slate-400 text-lg md:text-xl font-medium max-w-3xl mx-auto mb-10 leading-relaxed animate-fade-in opacity-0" style={{ animationDelay: "300ms", animationFillMode: "forwards" }}>
+            Nous scannons en temps réel plus de 10 plateformes d'emploi <br className="hidden md:block" />
+            pour centraliser toutes les opportunités tech du Maroc en un seul endroit.
           </p>
-          
-          <div className="flex flex-col items-center gap-4 text-slate-500 text-sm">
-             <div className="animate-bounce mt-4">
-                <div className="w-1 h-8 bg-gradient-to-b from-indigo-500 to-transparent rounded-full mx-auto"></div>
-             </div>
-             <span>Scroll pour voir les offres</span>
+        </header>
+
+        {/* Filters Area */}
+        <div className="animate-fade-in opacity-0" style={{ animationDelay: "400ms", animationFillMode: "forwards" }}>
+          <Suspense fallback={<div className="h-32 bg-[#161822] rounded-[2.5rem] animate-pulse max-w-6xl mx-auto"></div>}>
+            <FilterSection />
+          </Suspense>
+        </div>
+
+        {/* Grid Content */}
+        <Suspense fallback={
+          <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-16 pb-32">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="p-8 bg-[#161822] rounded-[2.5rem] border border-white/5 animate-pulse h-80">
+                <div className="flex gap-4 mb-8">
+                  <div className="w-14 h-14 bg-white/5 rounded-2xl"></div>
+                  <div className="flex-1 space-y-3">
+                    <div className="h-4 bg-white/5 rounded w-3/4"></div>
+                    <div className="h-3 bg-white/5 rounded w-1/4"></div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="h-3 bg-white/5 rounded w-full"></div>
+                  <div className="h-3 bg-white/5 rounded w-5/6"></div>
+                  <div className="h-10 bg-white/5 rounded-xl w-full mt-4"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        }>
+          <InternshipStream searchParams={searchParams} />
+        </Suspense>
+      </div>
+
+      {/* Footer */}
+      <footer className="border-t border-white/5 bg-[#0f111a] py-12 relative z-10">
+        <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="text-slate-500 text-sm">
+            © 2026 Morocco InternHub. Plateforme agrégative indépendante.
+          </div>
+          <div className="flex gap-8 text-slate-500 text-xs font-bold uppercase tracking-widest">
+            <a href="#" className="hover:text-indigo-400 transition-colors">À propos</a>
+            <a href="#" className="hover:text-indigo-400 transition-colors">Confidentialité</a>
+            <a href="#" className="hover:text-indigo-400 transition-colors">Contact</a>
           </div>
         </div>
-      </header>
-
-      {/* Filters Area */}
-      <Suspense fallback={<div className="h-32 bg-[#161822] rounded-[2.5rem] animate-pulse"></div>}>
-        <FilterSection />
-      </Suspense>
-
-      {/* Grid Content */}
-      <Suspense fallback={
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-12 pb-20">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="p-8 bg-[#161822] rounded-[2rem] border border-slate-800 animate-pulse h-72">
-               <div className="flex gap-4 mb-6">
-                 <div className="w-12 h-12 bg-slate-800 rounded-2xl"></div>
-                 <div className="flex-1 space-y-2">
-                    <div className="h-4 bg-slate-800 rounded w-3/4"></div>
-                    <div className="h-3 bg-slate-800 rounded w-1/4"></div>
-                 </div>
-               </div>
-               <div className="space-y-3">
-                 <div className="h-3 bg-slate-800 rounded w-full"></div>
-                 <div className="h-3 bg-slate-800 rounded w-5/6"></div>
-               </div>
-            </div>
-          ))}
-        </div>
-      }>
-         <InternshipStream searchParams={searchParams} />
-      </Suspense>
+      </footer>
     </main>
   );
 }

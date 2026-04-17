@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import { ScraperProvider, InternshipOffer, FilterOptions } from "./types";
-import { fetchHtmlCode, detectLanguage, isRelevantITOffer, parseDateAge } from "../scraper-utils";
+import { fetchHtmlCode, detectLanguage, isRelevantITOffer, parseDateAge, cleanDescription } from "../scraper-utils";
 
 export const OneJobProvider: ScraperProvider = {
   name: "OneJob",
@@ -36,7 +36,8 @@ export const OneJobProvider: ScraperProvider = {
           source: "OneJob.ma",
           language: detectLanguage(title),
           contract: "Stage",
-          tags: []
+          tags: [],
+          description: cleanDescription($(el).find('p').text().trim() || $(el).text().replace(title, "").trim().substring(0, 150))
         });
       });
       

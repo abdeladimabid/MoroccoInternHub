@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
-  title: "InternHub | Morocco Web Dev Internships",
-  description: "Live scanning 17+ Moroccan Job Boards for tech internships.",
+  title: "Morocco InternHub | Find Your Next Tech Internship",
+  description: "The most comprehensive platform for tech internships in Morocco. Real-time scanning of all major job boards.",
 };
 
 export default function RootLayout({
@@ -15,8 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="fr" className={`${inter.variable} ${outfit.variable}`}>
+      <body className="antialiased selection:bg-indigo-500/30 selection:text-white">
+        {children}
+      </body>
     </html>
   );
 }

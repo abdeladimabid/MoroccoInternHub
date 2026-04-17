@@ -32,7 +32,13 @@ export function isRelevantITOffer(title: string, requiresInternKeyword: boolean 
   
   const lowerTitle = title.toLowerCase();
   
-  const isIT = devKeywords.some(keyword => lowerTitle.includes(keyword));
+  const isIT = devKeywords.some(keyword => {
+    if (keyword.length <= 2) {
+      const regex = new RegExp(`\\b${keyword}\\b`, 'i');
+      return regex.test(lowerTitle);
+    }
+    return lowerTitle.includes(keyword);
+  });
   
   if (!requiresInternKeyword) return isIT;
   
@@ -62,22 +68,27 @@ export function parseDateAge(dateStr: string): number {
   return 30; // fallback to 30 days if unknown
 }
 
-/** Extracts technology tags from text */
-export function extractTechTags(text: string): string[] {
+/** Improved technology tag extraction from both title and description */
+export function extractTechTags(title: string, description: string = ""): string[] {
   const commonTech = [
     "React", "Angular", "Vue", "Node", "PHP", "Laravel", "Python", "Django", "Flask", 
     "Java", "Spring", "C#", ".NET", "Flutter", "Swift", "Kotlin", "Android", "iOS",
     "SQL", "MongoDB", "PostgreSQL", "JavaScript", "TypeScript", "HTML", "CSS",
     "Docker", "Kubernetes", "AWS", "Azure", "Cloud", "DevOps", "Cybersecurity",
-    "Machine Learning", "AI", "Data", "Go", "Rust", "Ruby", "Rails", "WordPress"
+    "Machine Learning", "AI", "Data", "Go", "Rust", "Ruby", "Rails", "WordPress",
+    "Next.js", "Tailwind", "Bootstrap", "Prisma", "Supabase", "Firebase", "Graphql",
+    "Redux", "Sass", "C++", "C", "Objective-C", "Scala", "Haskell", "Assembly",
+    "Figma", "Canva", "Adobe", "Photoshop", "Illustrator"
   ];
   
   const tags: string[] = [];
-  const lower = text.toLowerCase();
+  const combined = (title + " " + description).toLowerCase();
   
   commonTech.forEach(tech => {
-    const regex = new RegExp(`\\b${tech.replace('.', '\\.')}\\b`, 'i');
-    if (regex.test(lower)) {
+    // Escape dots for Next.js and .NET
+    const escapedTech = tech.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escapedTech}\\b`, 'i');
+    if (regex.test(combined)) {
       tags.push(tech);
     }
   });
@@ -85,13 +96,51 @@ export function extractTechTags(text: string): string[] {
   return [...new Set(tags)];
 }
 
+/** Detects city from text using a list of major Moroccan cities */
+export function detectCity(title: string, description: string, fallback: string = "Maroc"): string {
+  const cities = [
+    "Casablanca", "Rabat", "Tanger", "Marrakech", "Agadir", "Fés", "Fès", "Meknès", 
+    "Oujda", "Kenitra", "Kénitra", "Salé", "Safi", "Témara", "Temara", "Mohammedia", 
+    "Laâyoune", "Béni Mellal", "El Jadida", "Taza", "Nador", "Settat", "Khouribga", "Larache"
+  ];
+  
+  const combined = (title + " " + description).toLowerCase();
+  
+  for (const city of cities) {
+    const regex = new RegExp(`\\b${city}\\b`, 'i');
+    if (regex.test(combined)) return city;
+  }
+  
+  // Hande generic "Maroc" or fallback
+  if (fallback.toLowerCase() === "maroc") {
+     // If fallback is just "Maroc", try to find something better in text before giving up
+     return "Maroc";
+  }
+  
+  return fallback;
+}
+
 /** Cleans description snippets from redundant meta-text */
 export function cleanDescription(text: string): string {
   if (!text) return "";
   return text
-    .replace(/(Publication|Postes\s*proposés|Anonyme)[\s\S]*/gi, '') 
+    .replace(/(Publication\s*:|Postes\s*proposés\s*:|Anonyme|Réf|Date\s*limite)[\s\S]*/gi, '') 
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+/** Cleans up generic company names */
+export function cleanCompany(name: string): string {
+  if (!name) return "Société";
+  const generic = [
+    "Entreprise de renommée", "Multinationale", "Société Confidentielle", "Unknown Company",
+    "Anonyme", "Confidenciel", "Recruteur", "Direct Link", "Import-Export", "PME", "SARL"
+  ];
+  const cleaner = name.trim();
+  if (generic.some(g => cleaner.toLowerCase().includes(g.toLowerCase()))) {
+     return "Entreprise (IT)";
+  }
+  return cleaner;
 }
 
 /** Fetch code with randomized user-agents, automatic AllOrigins proxy fallback for HTML */

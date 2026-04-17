@@ -30,7 +30,7 @@ export async function fetchInternshipsAction(page: number, filters: FilterOption
     providers.map(p => p.fetch(page, filters))
   );
   
-  const allOffers: InternshipOffer[] = [];
+  let allOffers: InternshipOffer[] = [];
   
   results.forEach(res => {
     if (res.status === "fulfilled") {
@@ -39,6 +39,37 @@ export async function fetchInternshipsAction(page: number, filters: FilterOption
         console.warn("A scraper failed with error:", res.reason);
     }
   });
+
+  // --- REINFORCE FILTERING ---
+  // Some scrapers might return irrelevant results (fuzzy search, etc.)
+  if (filters.q || filters.region || filters.contract) {
+    const q = filters.q?.toLowerCase();
+    const region = filters.region?.toLowerCase();
+    const contract = filters.contract?.toLowerCase();
+
+    allOffers = allOffers.filter(offer => {
+      // Search query check (Title, Description, or Company)
+      if (q) {
+        const matchesQ = 
+          offer.title.toLowerCase().includes(q) || 
+          (offer.description?.toLowerCase().includes(q) ?? false) ||
+          offer.company.toLowerCase().includes(q);
+        if (!matchesQ) return false;
+      }
+
+      // Region check
+      if (region && !offer.location.toLowerCase().includes(region)) {
+        return false;
+      }
+
+      // Contract check
+      if (contract && !offer.contract.toLowerCase().includes(contract)) {
+        return false;
+      }
+
+      return true;
+    });
+  }
   
   // Sort by newest first
   allOffers.sort((a, b) => a.ageInDays - b.ageInDays);
